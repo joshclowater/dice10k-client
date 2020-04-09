@@ -1,3 +1,20 @@
+.Game {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+
 .DiceBox {
-  height: 180px;
+  height: 150px;
+}
+
+.Actions {
+  height: 56px;
+}
+
+.Logs {
+  flex: 1;
+  overflow-y: scroll;
+  border-top: 1px solid rgba(76, 132, 182, 0.15);
+  padding: 10px;
 }

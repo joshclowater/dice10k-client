@@ -24,6 +24,8 @@ button {
   background-color: rgba(76, 132, 182, 0.15);
   border-radius: 2px;
   transition: all 0.15s;
+  width: fit-content;
+  margin: auto;
 }
 
 button:hover, button:focus {

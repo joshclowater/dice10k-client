@@ -1,5 +1,5 @@
 import store from './store';
-import { socketConnected } from '../features/app/appSlice';
+import { socketConnected, socketDisconnected } from '../features/app/appSlice';
 
 export let socket;
 
@@ -12,4 +12,11 @@ socket.onmessage = (event) => {
   const data = JSON.parse(event.data);
   console.log('WebSocket [message]', data);
   store.dispatch(data);
+}
+socket.onclose = () => {
+  console.warn('Websocket [closed] connection closed');
+  store.dispatch(socketDisconnected());
+}
+socket.onerror = (event) => {
+  console.error('Websocket [error]', event);
 }

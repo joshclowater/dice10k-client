@@ -15,6 +15,9 @@ export const slice = createSlice({
     },
     socketConnected: state => {
       state.socketConnected = true;
+    },
+    socketDisconnected: state => {
+      state.socketConnected = false;
     }
   },
   extraReducers: {
@@ -27,7 +30,8 @@ export const slice = createSlice({
 export const {
   setupCreateGame,
   setupJoinGame,
-  socketConnected
+  socketConnected,
+  socketDisconnected
 } = slice.actions;
 
 export const selectStatus = state => state.app.status;
