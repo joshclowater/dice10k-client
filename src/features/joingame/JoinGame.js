@@ -1,10 +1,19 @@
 import React, { useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import { socket } from '../../app/socket';
+import {
+  selectJoining,
+  selectError,
+  joiningGame,
+} from './joinGameSlice';
 
 export default function JoinGame() {
+  const joining = useSelector(selectJoining);
+  const error = useSelector(selectError);
+  const dispatch = useDispatch();
+
   const [gameId, setGameId] = useState('');
   const [name, setName] = useState('');
-  const [joiningGame, setJoiningGame] = useState(false);
 
   return (
     <div>
@@ -12,21 +21,21 @@ export default function JoinGame() {
       <input
         placeholder="Game ID"
         value={gameId}
-        disabled={joiningGame}
+        disabled={joining}
         onChange={e => setGameId(e.target.value)}
       />
       <br/><br/>
       <input
         placeholder="Your name"
         value={name}
-        disabled={joiningGame}
+        disabled={joining}
         onChange={e => setName(e.target.value)}
       />
       <br/><br/>
       <button
-        disabled={!name || !gameId || joiningGame}
+        disabled={!name || !gameId || joining}
         onClick={() => {
-          setJoiningGame(true);
+          dispatch(joiningGame());
           socket.send(JSON.stringify({
             message: 'joingame',
             gameId,
@@ -34,8 +43,11 @@ export default function JoinGame() {
           }));
         }}
       >
-        {joiningGame ? 'Joining...' : 'Join'}
+        {joining ? 'Joining...' : 'Join'}
       </button>
+      <div>
+        {error}
+      </div>
     </div>
   );
 }
