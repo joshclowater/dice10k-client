@@ -8,7 +8,7 @@ export default function DiceRolls() {
   const diceRolls = useSelector(selectDiceRolls);
 
   useEffect(() => {
-    if (diceRolls) {
+    if (diceRolls && diceRolls.length) {
       rollADie({
         element: document.getElementById('dice-box'),
         numberOfDice: diceRolls.length,

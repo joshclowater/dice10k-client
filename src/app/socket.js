@@ -20,3 +20,7 @@ socket.onclose = () => {
 socket.onerror = (event) => {
   console.error('Websocket [error]', event);
 }
+
+if (!process.env.NODE_ENV || process.env.NODE_ENV === 'development') {
+  window.socket = socket;
+}

@@ -6,9 +6,9 @@ export const slice = createSlice({
     status: 'init',
   },
   reducers: {
-    // setupCreateGame: state => {
-    //   state.status = 'setup-create-game';
-    // },
+    pickDie: (state, { payload: index }) => {
+      state.dicePicks[index] = !state.dicePicks[index];
+    },
   },
   extraReducers: {
     'game/youjoinedgame': (state, { payload: { gameId, playerName, players } }) => {
@@ -27,22 +27,51 @@ export const slice = createSlice({
       state.round = round;
       state.playersTurn = playersTurn;
       state.log.push('Game started.');
-      state.log.push(`It is ${playersTurn} turn.`);
+      state.log.push(`It is ${playersTurn}'s turn.`);
     },
-    'game/rolleddice': (state, { payload: { playerName, diceRolls, round, nextPlayerTurn }}) => {
+    'game/rolleddice': (state, { payload: { playerName, diceRolls }}) => {
+      state.diceRolls = diceRolls;
+      if (playerName === state.playerName) {
+        state.dicePicks = [];
+        for (let i = 0; i < diceRolls.length; i++) {
+          state.dicePicks.push(false);
+        }
+      }
+      state.log.push(`${playerName} rolled ${diceRolls.join(', ')}.`);
+    },
+    'game/endturn': (state, { payload: { playerName, diceRolls, round, nextPlayerTurn, crapout }}) => {
       state.diceRolls = diceRolls;
       state.round = round;
       state.playersTurn = nextPlayerTurn;
+      if (playerName === state.playerName) {
+        delete state.dicePicks;
+      }
       state.log.push(`${playerName} rolled ${diceRolls.join(', ')}.`);
-      state.log.push(`Is ${nextPlayerTurn} turn.`);
+      if (crapout) {
+        state.log.push(`${playerName} crapped out.`);
+      }
+      state.log.push(`It is ${nextPlayerTurn}'s turn.`);
     }
   }
 });
+
+export const {
+  pickDie
+} = slice.actions;
 
 export const selectStatus = state => state.game.status;
 export const selectGameId = state => state.game.gameId;
 export const selectPlayers = state => state.game.players;
 export const selectDiceRolls = state => state.game.diceRolls;
+export const selectDicePicks = state => state.game.dicePicks;
+export const selectDicePickValues = state => {
+  return selectDicePicks(state) && selectDicePicks(state).reduce((pickValues, indexPicked, index) => {
+    if (indexPicked) {
+      pickValues.push(selectDiceRolls(state)[index]);
+    }
+    return pickValues;
+  }, []);
+}
 export const selectRound = state => state.game.round;
 export const selectPlayersTurn = state => state.game.playersTurn;
 export const selectIsYourTurn = state => state.game.playersTurn === state.game.playerName;
