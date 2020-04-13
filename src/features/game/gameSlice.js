@@ -4,8 +4,12 @@ export const slice = createSlice({
   name: 'game',
   initialState: {
     status: 'init',
+    rollingDice: false
   },
   reducers: {
+    rollingDice: state => {
+      state.rollingDice = true;
+    },
     pickDie: (state, { payload: index }) => {
       state.dicePicks[index] = !state.dicePicks[index];
     },
@@ -32,6 +36,8 @@ export const slice = createSlice({
     'game/rolleddice': (state, { payload: { playerName, diceRolls }}) => {
       state.diceRolls = diceRolls;
       if (playerName === state.playerName) {
+        state.rollingDice = false;
+        delete state.rollDiceError;
         state.dicePicks = [];
         for (let i = 0; i < diceRolls.length; i++) {
           state.dicePicks.push(false);
@@ -39,11 +45,17 @@ export const slice = createSlice({
       }
       state.log.push(`${playerName} rolled ${diceRolls.join(', ')}.`);
     },
+    'game/failedtorolldice': (state, { payload: { errorMessage } }) => {
+      state.rollingDice = false;
+      state.rollDiceError = errorMessage;
+    },
     'game/endturn': (state, { payload: { playerName, diceRolls, round, nextPlayerTurn, crapout }}) => {
       state.diceRolls = diceRolls;
       state.round = round;
       state.playersTurn = nextPlayerTurn;
       if (playerName === state.playerName) {
+        state.rollingDice = false;
+        delete state.rollDiceError;
         delete state.dicePicks;
       }
       state.log.push(`${playerName} rolled ${diceRolls.join(', ')}.`);
@@ -56,12 +68,15 @@ export const slice = createSlice({
 });
 
 export const {
+  rollingDice,
   pickDie
 } = slice.actions;
 
 export const selectStatus = state => state.game.status;
 export const selectGameId = state => state.game.gameId;
 export const selectPlayers = state => state.game.players;
+export const selectRollingDice = state => state.game.rollingDice;
+export const selectRollDiceError = state => state.game.rollDiceError;
 export const selectDiceRolls = state => state.game.diceRolls;
 export const selectDicePicks = state => state.game.dicePicks;
 export const selectDicePickValues = state => {

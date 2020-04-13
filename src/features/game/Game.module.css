@@ -13,7 +13,7 @@
 }
 
 .Actions {
-  height: 100px;
+  height: 120px;
 }
 
 .Game {
@@ -27,4 +27,6 @@
   overflow-y: scroll;
   border-top: 1px solid rgba(76, 132, 182, 0.15);
   padding: 10px;
+  max-height: 20vh;
+  margin-top: auto;
 }
