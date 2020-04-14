@@ -3,8 +3,10 @@ import { useDispatch, useSelector } from 'react-redux';
 import { socket } from '../../app/socket';
 import {
   rollingDice,
+  endTurn,
   pickDie,
   selectRollingDice,
+  selectEndingTurn,
   selectRollDiceError,
   selectDicePicks,
   selectDicePickValues
@@ -13,6 +15,7 @@ import styles from './Game.module.css';
 
 export default function Actions() {
   const isRollingDice = useSelector(selectRollingDice);
+  const endingTurn = useSelector(selectEndingTurn);
   const rollDiceError = useSelector(selectRollDiceError);
   const dicePicks = useSelector(selectDicePicks);
   const dicePickValues = useSelector(selectDicePickValues);
@@ -34,7 +37,7 @@ export default function Actions() {
         </div>
       )}
       <button
-        disabled={isRollingDice}
+        disabled={isRollingDice || endingTurn}
         onClick={() => {
           dispatch(rollingDice());
           socket.send(JSON.stringify({
@@ -45,6 +48,21 @@ export default function Actions() {
       >
         {isRollingDice ? 'Rolling...' : 'Roll dice' }
       </button>
+      {dicePicks &&
+        <button
+          className={styles.EndTurn}
+          disabled={isRollingDice || endingTurn}
+          onClick={() => {
+            dispatch(endTurn());
+            socket.send(JSON.stringify({
+              message: 'rolldice',
+              diceKept: dicePickValues,
+              endTurn: true
+            }));
+          }}
+        >
+          {endingTurn ? 'Ending...' : 'End turn' }
+        </button>}
       <div>
         {rollDiceError}
       </div>

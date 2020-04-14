@@ -8,12 +8,12 @@
   margin: 25px;
 }
 
-.DiceBox {
-  height: 150px;
+.EndTurn {
+  margin-left: 10px;
 }
 
-.Actions {
-  height: 120px;
+.DiceBox {
+  height: 150px;
 }
 
 .Game {

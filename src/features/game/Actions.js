@@ -7,7 +7,6 @@ import {
   selectIsYourTurn,
 } from './gameSlice';
 import RollDice from './RollDice';
-import styles from './Game.module.css';
 
 export default function Actions() {
   const status = useSelector(selectStatus);
@@ -31,7 +30,7 @@ export default function Actions() {
     content = <RollDice />;
   }
   return (
-    <div className={styles.Actions}>
+    <div>
       {content}
     </div>
   );
