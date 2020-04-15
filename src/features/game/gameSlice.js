@@ -37,7 +37,7 @@ export const slice = createSlice({
       state.log.push('Game started.');
       state.log.push(`It is ${playersTurn}'s turn.`);
     },
-    'game/rolleddice': (state, { payload: { playerName, playerDiceKept, diceRolls }}) => {
+    'game/rolleddice': (state, { payload: { playerName, playerDiceKept, diceRolls, scoredThisRoll }}) => {
       state.diceRolls = diceRolls;
       if (playerName === state.playerName) {
         state.rollingDice = false;
@@ -48,7 +48,7 @@ export const slice = createSlice({
         }
       }
       if (playerDiceKept && playerDiceKept.length) {
-        state.log.push(`${playerName} kept ${playerDiceKept.join(', ')}.`)
+        state.log.push(`${playerName} kept ${playerDiceKept.join(', ')} (${scoredThisRoll} points).`)
       }
       state.log.push(`${playerName} rolled ${diceRolls.join(', ')}.`);
     },
@@ -57,7 +57,9 @@ export const slice = createSlice({
       state.endingTurn = false;
       state.rollDiceError = errorMessage;
     },
-    'game/endturn': (state, { payload: { playerName, playerDiceKept, diceRolls, round, nextPlayerTurn, crapout }}) => {
+    'game/endturn': (state, { payload:
+      { playerName, playerDiceKept, diceRolls, scoredThisRoll, scoredThisTurn, round, nextPlayerTurn, crapout }
+    }) => {
       state.diceRolls = diceRolls;
       state.round = round;
       state.playersTurn = nextPlayerTurn;
@@ -67,12 +69,11 @@ export const slice = createSlice({
         delete state.rollDiceError;
         delete state.dicePicks;
       }
-      state.log.push(`${playerName} kept ${playerDiceKept.join(', ')}.`);
+      state.log.push(`${playerName} kept ${playerDiceKept.join(', ')} (${scoredThisRoll} points).`);
       if (crapout) {
-        state.log.push(`${playerName} rolled ${diceRolls.join(', ')}.`);
-        state.log.push(`${playerName} crapped out.`);
+        state.log.push(`${playerName} rolled ${diceRolls.join(', ')}, crapping out.`);
       } else {
-        state.log.push(`${playerName} ended their turn.`);
+        state.log.push(`${playerName} ended their turn scoring ${scoredThisTurn} points.`);
       }
       state.log.push(`It is ${nextPlayerTurn}'s turn.`);
     }
