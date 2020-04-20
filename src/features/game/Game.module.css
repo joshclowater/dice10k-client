@@ -1,11 +1,10 @@
 
 .DicePickContainer {
   margin-top: -20px;
-  padding-left: 38px;
 }
 
 .DicePick {
-  margin: 25px;
+  margin: 0 25px 25px;
 }
 
 .EndTurn {
@@ -14,6 +13,7 @@
 
 .DiceBox {
   height: 150px;
+  margin-left: -68px;
 }
 
 .Game {

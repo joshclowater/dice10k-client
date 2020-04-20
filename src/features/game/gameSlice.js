@@ -58,24 +58,33 @@ export const slice = createSlice({
       state.rollDiceError = errorMessage;
     },
     'game/endturn': (state, { payload:
-      { playerName, playerDiceKept, diceRolls, scoredThisRoll, scoredThisTurn, round, nextPlayerTurn, crapout }
+      { playerName, playerDiceKept, diceRolls, scoredThisRoll, scoredThisTurn, round, nextPlayerTurn, crapout, endGame }
     }) => {
-      state.diceRolls = diceRolls;
-      state.round = round;
-      state.playersTurn = nextPlayerTurn;
+      if (endGame) {
+        state.status = 'game-over';
+      } else {
+        state.diceRolls = diceRolls;
+        state.round = round;
+        state.playersTurn = nextPlayerTurn;
+      }
       if (playerName === state.playerName) {
         state.rollingDice = false;
         state.endingTurn = false;
         delete state.rollDiceError;
         delete state.dicePicks;
       }
+
       state.log.push(`${playerName} kept ${playerDiceKept.join(', ')} (${scoredThisRoll} points).`);
       if (crapout) {
         state.log.push(`${playerName} rolled ${diceRolls.join(', ')}, crapping out.`);
       } else {
         state.log.push(`${playerName} ended their turn scoring ${scoredThisTurn} points.`);
       }
-      state.log.push(`It is ${nextPlayerTurn}'s turn.`);
+      if (endGame) {
+        state.log.push(`${playerName} won!`);
+      } else {
+        state.log.push(`It is ${nextPlayerTurn}'s turn.`);
+      }
     }
   }
 });
