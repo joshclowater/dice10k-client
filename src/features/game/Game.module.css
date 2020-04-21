@@ -26,7 +26,28 @@
   flex: 1;
   overflow-y: scroll;
   border-top: 1px solid rgba(76, 132, 182, 0.15);
+  border-bottom: 1px solid rgba(76, 132, 182, 0.15);
   padding: 10px;
+  margin-bottom: 10px;
   max-height: 20vh;
-  margin-top: auto;
+}
+
+.TableContainer {
+  overflow-x: scroll;
+}
+
+.Table {
+  margin: 0 auto;
+}
+
+.LeftFloat {
+  position: sticky;
+  left: 0;
+  background-color: white;
+}
+
+.RightFloat {
+  position: sticky;
+  right: 0;
+  background-color: white;
 }

@@ -48,3 +48,11 @@ input {
   padding: 2px;
   text-align: center;
 }
+
+td {
+  padding: 5px;
+}
+
+thead td {
+  text-decoration: underline;
+}

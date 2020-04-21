@@ -1,24 +1,57 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 import {
-  selectStatus,
   selectRound,
-  selectPlayersTurn
+  selectPlayers,
+  selectPlayersTurn,
+  selectScoredThisTurnSoFar
 } from './gameSlice';
+import styles from './Game.module.css';
 
 export default function Turn() {
-  const status = useSelector(selectStatus);
   const round = useSelector(selectRound);
-  const playersTurn = useSelector(selectPlayersTurn)
+  const players = useSelector(selectPlayers);
+  const playersTurn = useSelector(selectPlayersTurn);
+  const scoredThisTurnSoFar = useSelector(selectScoredThisTurnSoFar);
 
-  if (status === 'in-progress') {
-    return (
-      <div>
-        <h2>Round: {round}</h2>
-        <h2>Turn: {playersTurn}</h2>
-      </div>
-    );
-  } else {
-    return null;
-  }
+  return (
+    <div className={styles.TableContainer}>
+      <table className={styles.Table}>
+        <thead>
+          <tr>
+            <td className={styles.LeftFloat}></td>
+            {[...Array(round)].map((x, i) => <td key={'round' + i}>{i + 1}</td>)}
+            <td className={styles.RightFloat}>Total</td>
+          </tr>
+        </thead>
+        <tbody>
+          {players.map(player => (
+            <tr>
+              <td className={styles.LeftFloat}>
+                {player.name === playersTurn
+                  ? <b>{player.name}</b>
+                  : player.name}
+              </td>
+              {[...Array(round)].map((x, i) => {
+                let roundScore;
+                if (player.scores.length >= i + 1) {
+                  roundScore = player.scores[i];
+                } else if (round === i + 1 && player.name === playersTurn) {
+                  roundScore = <i>{scoredThisTurnSoFar}</i>
+                }
+                return (
+                  <td key={'player' + player.name + 'round' + i}>
+                    {roundScore}
+                  </td>
+                );
+              })}
+              <td className={styles.RightFloat}>
+                {player.totalScore}
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  );
 }

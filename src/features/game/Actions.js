@@ -3,14 +3,14 @@ import { useSelector } from 'react-redux';
 import { socket } from '../../app/socket';
 import {
   selectStatus,
-  selectPlayers,
   selectIsYourTurn,
+  selectJoiningPlayers,
 } from './gameSlice';
 import RollDice from './RollDice';
 
 export default function Actions() {
   const status = useSelector(selectStatus);
-  const players = useSelector(selectPlayers);
+  const players = useSelector(selectJoiningPlayers);
   const isYourTurn = useSelector(selectIsYourTurn);
 
   let content;

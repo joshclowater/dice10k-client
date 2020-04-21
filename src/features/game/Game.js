@@ -16,10 +16,10 @@ export default function Game() {
       {status === 'waiting-for-players'
         ? <Players />
         : <Turn />}
+      <Logs />
       {status === 'in-progress' &&
         <DiceRolls />}
       <Actions />
-      <Logs />
     </div>
   );
 }
