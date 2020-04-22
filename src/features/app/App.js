@@ -17,7 +17,7 @@ function App() {
   if (status === 'init') {
     return (
       <div className={styles.App}>
-        <h1>Dice 10k</h1>
+        <h1>Dice 10000</h1>
         <button onClick={() => dispatch(setupCreateGame())}>
           Create game
         </button>
@@ -25,6 +25,14 @@ function App() {
         <button onClick={() => dispatch(setupJoinGame())}>
           Join game
         </button>
+        <br/><br/>
+        <a
+          target="_blank"
+          rel="noopener noreferrer"
+          href="https://www.wikihow.com/Play-10000"
+        >
+          Rules
+        </a>
       </div>
     );
   } else if (status === 'setup-create-game') {
