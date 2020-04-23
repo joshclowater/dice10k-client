@@ -1,10 +1,15 @@
 
-.DicePickContainer {
-  margin-top: -20px;
+.DicePick {
+  display: inline-block;
+  padding: 120px 25px 0;
+  margin: -120px 0 25px;
+  z-index: 1;
+  position: relative;
+  cursor: pointer;
 }
 
-.DicePick {
-  margin: 0 25px 25px;
+.DicePickInput {
+  cursor: pointer;
 }
 
 .EndTurn {

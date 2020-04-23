@@ -24,16 +24,21 @@ export default function Actions() {
   return (
     <Fragment>
       {dicePicks && (
-        <div className={styles.DicePickContainer}>
-          {dicePicks.map((picked, index) =>
-            <input
+        <div>
+          {dicePicks.map((picked, index) => (
+            <span
+              key={index + 'dicepick'}
               className={styles.DicePick}
-              key={index}
-              type="checkbox"
-              checked={picked}
-              onChange={() => {dispatch(pickDie(index))}}
-            />
-          )}
+              onClick={() => {dispatch(pickDie(index))}}
+             >
+              <input
+                className={styles.DicePickInput}
+                type="checkbox"
+                checked={picked}
+                readOnly
+              />
+            </span>
+          ))}
         </div>
       )}
       <button
