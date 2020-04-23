@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import { useSelector } from 'react-redux';
 import {
   selectRound,
@@ -14,8 +14,14 @@ export default function Turn() {
   const playersTurn = useSelector(selectPlayersTurn);
   const scoredThisTurnSoFar = useSelector(selectScoredThisTurnSoFar);
 
+  const tableContainer = useRef(null);
+  const scrollToEnd = () => {
+    tableContainer.current.scrollLeft = tableContainer.current.scrollWidth;
+  };
+  useEffect(scrollToEnd, [round]);
+
   return (
-    <div className={styles.TableContainer}>
+    <div className={styles.TableContainer} ref={tableContainer}>
       <table className={styles.Table}>
         <thead>
           <tr>
@@ -26,7 +32,7 @@ export default function Turn() {
         </thead>
         <tbody>
           {players.map(player => (
-            <tr>
+            <tr key={'player' + player.name}>
               <td className={styles.LeftFloat}>
                 {player.name === playersTurn
                   ? <b>{player.name}</b>

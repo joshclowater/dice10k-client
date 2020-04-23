@@ -51,6 +51,7 @@ input {
 
 td {
   padding: 5px;
+  min-width: 40px;
 }
 
 thead td {
