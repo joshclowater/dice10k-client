@@ -1,12 +1,12 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
-import { socket } from '../../app/socket';
 import {
   selectStatus,
   selectIsYourTurn,
   selectJoiningPlayers,
 } from './gameSlice';
 import RollDice from './RollDice';
+import StartGame from './StartGame';
 
 export default function Actions() {
   const status = useSelector(selectStatus);
@@ -15,17 +15,7 @@ export default function Actions() {
 
   let content;
   if (status === 'waiting-for-players' && players.length >= 2) {
-    content = (
-      <button
-        onClick={() => {
-          socket.send(JSON.stringify({
-            message: 'startgame',
-          }));
-        }}
-      >
-        Start Game
-      </button>
-    );
+    content = <StartGame />;
   } else if (status === 'in-progress' && isYourTurn) {
     content = <RollDice />;
   }

@@ -13,6 +13,9 @@ export const slice = createSlice({
     setupJoinGame: state => {
       state.status = 'setup-join-game';
     },
+    cancel: state => {
+      state.status = 'init';
+    },
     socketConnected: state => {
       state.socketConnected = true;
     },
@@ -30,6 +33,7 @@ export const slice = createSlice({
 export const {
   setupCreateGame,
   setupJoinGame,
+  cancel,
   socketConnected,
   socketDisconnected
 } = slice.actions;

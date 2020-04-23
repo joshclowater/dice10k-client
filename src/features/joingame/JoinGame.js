@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { socket } from '../../app/socket';
+import { cancel } from '../app/appSlice';
 import {
   selectJoining,
   selectError,
@@ -48,6 +49,15 @@ export default function JoinGame() {
       <div>
         {error}
       </div>
+      <br />
+      <button
+        disabled={joining}
+        onClick={() => {
+          dispatch(cancel());
+        }}
+      >
+        Cancel
+      </button>
     </div>
   );
 }
